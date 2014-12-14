@@ -14,6 +14,7 @@ module Fluent
     config_param :uniq_key, :string, :default => "tsc_key"
     config_param :unit_key, :string, :default => "tsc_unit"
     config_param :time_key, :string, :default => "tsc_time"
+    config_param :add_key_prefix, :string, :default => nil
 
     def initialize
       super
@@ -71,9 +72,15 @@ module Fluent
     private
     def create_uniq_key(record, time)
       uniq_key = []
+
+      if @add_key_prefix
+        uniq_key << @add_key_prefix
+      end
+
       @count_keys.each do |k|
         uniq_key << record[k]
       end
+
       uniq_key << time.to_s
       uniq_key.join(@count_key_delimiter)
     end

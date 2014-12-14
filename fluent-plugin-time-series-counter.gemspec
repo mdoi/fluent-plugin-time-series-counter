@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "fluent-plugin-time-series-counter"
-  spec.version       = '0.1.0'
+  spec.version       = '0.1.1'
   spec.authors       = ["Masayuki DOI"]
   spec.email         = ["dotquasar@gmail.com"]
   spec.description   = "plugin for counting multiple records and output time-series value"
