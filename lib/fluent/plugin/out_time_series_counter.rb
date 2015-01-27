@@ -69,12 +69,13 @@ module Fluent
     end
 
     private
-    def create_uniq_key(record, time)
+    def create_uniq_key(record, unit, time)
       uniq_key = []
       @count_keys.each do |k|
         uniq_key << record[k]
       end
       uniq_key << time.to_s
+      uniq_key << unit
       uniq_key.join(@count_key_delimiter)
     end
 
@@ -90,7 +91,7 @@ module Fluent
       else
         return
       end
-      tsc_key = create_uniq_key(record, unit_time)
+      tsc_key = create_uniq_key(record, unit, unit_time)
       unless stats[tsc_key]
         stats[tsc_key] = {@count_value_name => 0} unless stats[tsc_key]
         @count_keys.each do |k|
