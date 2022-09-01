@@ -16,14 +16,14 @@ class TimeSeriesCounterTest < Test::Unit::TestCase
   ]
 
   def create_driver(conf = CONFIG)
-    Fluent::Test::Driver::Output.new(Fluent::TimeSeriesCounter).configure(conf)
+    Fluent::Test::Driver::Output.new(Fluent::Plugin::TimeSeriesCounter).configure(conf)
   end
 
   sub_test_case 'configuration' do
     test 'basic configuration' do
       d = create_driver
-      assert_equal('id', d.instance.count_key)
-      assert_equal({'hour' => true}, d.instance.unit)
+      assert_equal 'id', d.instance.count_key
+      assert_equal 'hour', d.instance.unit
     end
   end
 
