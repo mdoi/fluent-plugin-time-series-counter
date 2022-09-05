@@ -4,10 +4,6 @@ class Fluent::Plugin::TimeSeriesCounter < Fluent::Plugin::Output
   Fluent::Plugin.register_output('time_series_counter', self)
   helpers :event_emitter
 
-  unless method_defined?(:log)
-    define_method('log') { $log }
-  end
-
   config_param :tag, :string, default: "tsc"
   config_param :count_key, :string, default: nil
   config_param :count_key_delimiter, :string, default: ":"
