@@ -83,7 +83,6 @@ class Fluent::Plugin::TimeSeriesCounter < Fluent::Plugin::Output
   end
 
   def count(stats, record, time, unit)
-    unix_time = 0
     case unit
     when "min"
       unit_time = time - (time % 60)
@@ -94,6 +93,7 @@ class Fluent::Plugin::TimeSeriesCounter < Fluent::Plugin::Output
     else
       return
     end
+
     tsc_key = create_uniq_key(record, unit, unit_time)
     unless stats[tsc_key]
       stats[tsc_key] = {@count_value_name => 0} unless stats[tsc_key]
