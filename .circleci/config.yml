@@ -1,0 +1,19 @@
+version: 2.1
+
+orbs:
+  ruby-orbs: sue445/ruby-orbs@volatile
+
+jobs:
+  test:
+    docker:
+      - image: cimg/ruby:3.0
+    steps:
+      - checkout
+      - ruby-orbs/bundle-install:
+          gemspec_name: fluent-plugin-time-series-counter
+          with_gemfile_lock: false
+      - run: bundle exec rake test
+workflows:
+  test:
+    jobs:
+      - test
