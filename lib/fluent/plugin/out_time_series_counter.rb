@@ -1,6 +1,7 @@
 module Fluent
   class TimeSeriesCounter < Fluent::BufferedOutput
     Fluent::Plugin.register_output('time_series_counter', self)
+    helpers :compat_parameters
 
     unless method_defined?(:log)
       define_method('log') { $log }
@@ -20,6 +21,8 @@ module Fluent
     end
 
     def configure(conf)
+      compat_parameters_convert(conf, :buffer, :inject, default_chunk_key: 'time')
+
       super
 
       if !count_key
@@ -106,7 +109,7 @@ module Fluent
     def output_stats(stats)
       stats.each do |k, v|
         v[@uniq_key] = k
-        Fluent::Engine.emit("#{@tag}", Fluent::Engine.now, v)
+        router.emit("#{@tag}", Fluent::Engine.now, v)
       end
     end
   end
